@@ -7,7 +7,7 @@ Requirements
 Go 1.15 or later
 The github.com/miekg/dns package, which can be installed using the following command:
 
->>> go get -u github.com/miekg/dns
+> go get -u github.com/miekg/dns
 
 Usage
 
