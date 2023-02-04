@@ -38,7 +38,7 @@ func handleRequest(w dns.ResponseWriter, r *dns.Msg) {
 	msg := dns.Msg{}
 	msg.SetReply(r)
 
-	file, err := os.Open("/Users/ak/Desktop/CHAT_GPT/DNS_DATA_SHARE/server/host.txt")
+	file, err := os.Open("./host.txt")
 	if err != nil {
 		fmt.Println(err)
 		return
