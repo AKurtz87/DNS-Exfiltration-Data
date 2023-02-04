@@ -1,5 +1,7 @@
 # DNS Exfiltration Script
 
+🚨🚨🚨🚨  BEFORE USE CHECK THE TXT FILE'S PATH AND CHANGE ACCORDING WITH YOURS 🚨🚨🚨🚨
+
 This script allows for the exfiltration of data using DNS queries. The script reads a secrets.txt file, divides the file into strings, and appends each string to a DNS query. The DNS server listens for the query and always responds with a valid IP address, and saves the part of the domain in the query that contains the string into a file named exfil.txt.
 
 Requirements
