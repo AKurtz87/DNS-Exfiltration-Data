@@ -43,7 +43,7 @@ func readFile(filePath string) ([]byte, error) {
 
 func main() {
 	
-	fileData, err := readFile("/Users/ak/Desktop/CHAT_GPT/DNS_DATA_SHARE/secrets.txt")
+	fileData, err := readFile("./secrets.txt")
 	if err != nil {
 		fmt.Println("Error reading file:", err)
 		return
