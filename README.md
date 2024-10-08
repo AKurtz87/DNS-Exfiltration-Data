@@ -1,24 +1,38 @@
-# DNS Exfiltration Script
+# Go DNS Exfiltration Scripts
 
-🚨🚨🚨🚨  **BEFORE USE CHECK THE TXT FILE'S PATH AND CHANGE ACCORDING WITH YOURS** 🚨🚨🚨🚨
+This repository contains two Go scripts designed to demonstrate DNS-based data exfiltration techniques. These scripts simulate data exfiltration over DNS queries and responses using a local DNS server.
 
-This script allows for the exfiltration of data using DNS queries. The script reads a secrets.txt file, divides the file into strings, and appends each string to a DNS query. The DNS server listens for the query and always responds with a valid IP address, and saves the part of the domain in the query that contains the string into a file named exfil.txt.
+## Table of Contents
+- [Overview](#overview)
+- [How It Works](#how-it-works)
+  - [DNS Server Script (`server.go`)](#dns-server-script-servergo)
+  - [DNS Client Script (`client.go`)](#dns-client-script-clientgo)
+- [Setup and Requirements](#setup-and-requirements)
+- [File Structure](#file-structure)
+- [Testing the Scripts](#testing-the-scripts)
+- [Security Considerations](#security-considerations)
+- [License](#license)
 
-## Requirements
+## Overview
 
-1. Go 1.15 or later
+This project demonstrates a basic proof-of-concept (PoC) for exfiltrating data using DNS requests. The DNS server script listens for DNS queries and extracts portions of the query name, writing them to a log file (`exfil.txt`). The client script reads sensitive data from a file (`secrets.txt`), splits it into smaller chunks, and sends each chunk as part of a DNS query to the server.
 
-## Usage
+## How It Works
 
-Start the DNS server by running the script on one machine.
-On another machine, run the client script that sends the DNS queries containing the secret data.
-The server will listen for incoming queries, extract the data from the domain names, and write it to the exfil.txt file.
-Note: Make sure to replace the IP address in the client script with the IP address of the machine running the DNS server.
+### DNS Server Script (`server.go`)
 
-## Limitations
+1. The script reads domain and IP address pairs from a file called `host.txt`.
+2. It runs a DNS server on `127.0.0.1:53` that listens for DNS queries.
+3. When a DNS request is received, it:
+   - Extracts and processes the domain name from the request.
+   - Logs specific parts of the domain name to `exfil.txt`.
+   - Responds to queries with the IP address associated with the requested domain, if available in `host.txt`.
 
-The exfiltrated data is limited by the length of the domain name in the DNS query, which is typically limited to 255 characters.
-The script does not provide encryption or any other security measures, so the transmitted data can be easily intercepted if the network is not secure.
-Conclusion
+### DNS Client Script (`client.go`)
 
-This script demonstrates a basic example of how data can be exfiltrated using DNS queries. However, it is not recommended to use this method in real-world scenarios as it lacks security measures and can easily be detected.
+1. The script reads data from a file called `secrets.txt`.
+2. It splits the content of the file into chunks of 10 bytes each.
+3. For each chunk:
+   - The script constructs a DNS query, appending the chunk to a domain name.
+   - It sends the DNS query to the server at `127.0.0.1:53`.
+   - The server processes the request and logs the chunks to `exfil.txt`.
